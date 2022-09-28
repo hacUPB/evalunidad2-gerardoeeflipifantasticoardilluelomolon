@@ -96,4 +96,21 @@ void RemoveEvent(EventList *this, char *name)
     }
 }
 
+void ListEvents(EventList *this)
+{
+    if (this->isEmpty == 0)
+    {
+        Event *createEvent = this->head;
+        while (createEvent != NULL)
+        {
+            printf("%s\n", createEvent->eventName);
+            createEvent = createEvent->next;
+        }       
+    }
+    else
+    {
+        printf("empty\n");
+    }
 
+
+}
