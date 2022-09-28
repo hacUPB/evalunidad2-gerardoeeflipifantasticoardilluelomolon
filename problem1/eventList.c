@@ -25,7 +25,7 @@ Event *SearchEvent(EventList *this, char *name)
         loQueBusca=loQueBusca->next;
     }
     return loQueBusca;
-}
+
 
 void AddEvent(EventList *this, Event *event)
 {
@@ -34,7 +34,7 @@ void AddEvent(EventList *this, Event *event)
         this->head=event;
         this->last=event;
         this->isEmpty=0;
-        return 0;
+    
     }
 
     this->last->next=event;
@@ -49,7 +49,7 @@ void RemoveEvent(EventList *this, char *name)
     if(antesRemover->next==NULL)
     {
         antesRemover==NULL;
-        return 0;
+       
     }
     while (antesRemover->next->eventName!=name)
     {
