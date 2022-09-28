@@ -25,7 +25,7 @@ Event *SearchEvent(EventList *this, char *name)
         while (crntEvent != NULL)
         {
             if (strcmp(name, crntEvent->eventName)==0)
-            return crntEvent;
+                return crntEvent;
             crntEvent = crntEvent->next;
         }
     }
