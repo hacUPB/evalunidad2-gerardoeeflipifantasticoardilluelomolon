@@ -5,96 +5,110 @@
 
 EventList *CreateEventList(void)
 {
-    EventList *event=malloc(sizeof(EventList));
-    event->head==NULL;
-    event->last==NULL;
-    event->isEmpty=1;
-    return event;
+    EventList *eventList = malloc(sizeof(EventList));
+    eventList->head = NULL;
+    eventList->last = NULL;
+    eventList->isEmpty = 1;
+    return eventList;
+}
+
+void DestroyEventList(EventList *this)
+{
+    free(this);
 }
 
 Event *SearchEvent(EventList *this, char *name)
 {
-    Event *loQueBusca;
-    loQueBusca=this->head;
-    if(strcmp(loQueBusca->eventName,name)==0)
+    Event *crntEvent = this->head;
+    if (this->isEmpty == 0)
     {
-        return loQueBusca;
+        while (crntEvent != NULL)
+        {
+            if (strcmp(name, crntEvent->eventName)==0)
+            return crntEvent;
+            crntEvent = crntEvent->next;
+        }
     }
-    while (loQueBusca->next->eventName!=name)
-    {     
-        loQueBusca=loQueBusca->next;
-    }
-    return loQueBusca;
-
+    crntEvent = NULL;
+    return crntEvent;
+}
 
 void AddEvent(EventList *this, Event *event)
-{
-    if(this->head==NULL)
-    {
-        this->head=event;
-        this->last=event;
-        this->isEmpty=0;
-    
-    }
+{    
+     Event *crntEvent = this->head;
+     while (crntEvent != NULL)
+     {
+         if(strcmp(event->eventName, crntEvent->eventName) == 0)
+         {
+            return;
+         }
+         crntEvent = crntEvent->next;
+     }
 
-    this->last->next=event;
-    this->last=event;
+     if(this->isEmpty == 0)
+     {
+          this->last->next = event;
+          this->last=event;
+     }
+     else
+     {
+         this->head = event;
+         this->last = event;
+         this->isEmpty = 0;    
+     }
 }
 
 void RemoveEvent(EventList *this, char *name)
 {
-    Event *antesRemover;
-    Event *aRemover;
-    antesRemover=this->head;
-    if(antesRemover->next==NULL)
+    if (this->isEmpty == 0)
     {
-        antesRemover==NULL;
-       
+         Event *crntEvent = this->head->next;
+         Event *lstEvent = this->head;
+         if(strcmp(name, lstEvent->eventName)==0)
+         {
+              if(lstEvent->next == NULL)
+              {
+                    this->head = NULL;
+                    this->last = NULL;
+                    this->isEmpty = 1;
+                    DestroyEvent(lstEvent);
+              }
+              else
+              {
+                    this->head=crntEvent;
+                    DestroyEvent(lstEvent);
+              }
+         }
+         while (crntEvent != NULL)
+         {
+              if(strcmp(name, crntEvent->eventName)==0)
+              {
+                   lstEvent->next = crntEvent->next;
+                   if (this->last->next == NULL)
+                   {
+                        this->last = lstEvent;
+                        DestroyEvent(crntEvent);
+                   }
+              }
+              lstEvent = crntEvent;
+              crntEvent = crntEvent->next;
+         }
     }
-    while (antesRemover->next->eventName!=name)
-    {
-        antesRemover=antesRemover->next;
-    }   
-    aRemover=SearchEvent(this,name);
-    antesRemover->next=aRemover->next;
-    DestroyEvent(aRemover);
-    this->last=antesRemover;
 }
 
 void ListEvents(EventList *this)
 {
-    if(this->head=NULL)
+    if (this->isEmpty == 0)
     {
-        printf("empty\n");
+        Event *crntEvent = this->head;
+        while (crntEvent != NULL)
+        {
+            printf("%s\n", crntEvent->eventName);
+            crntEvent = crntEvent->next;
+        }       
     }
     else
     {
-        Event *actual;
-        actual=this->head;
-        while (actual!=NULL)
-        {
-            printf("%p - %s\n",actual,actual->eventName);
-            actual=actual->next;
-        } 
+        printf("empty\n");
     }
-    
-}
-void DestroyEventList(EventList *this)
-{
-    Event *antesRemover;
-    Event *aRemover;
-    while (this->head->next!=NULL)
-    {
-        antesRemover=this->head;
-        while (strcmp(antesRemover->next->eventName,this->last->eventName)==0 )
-        {
-            antesRemover=antesRemover->next;
-        }   
-        aRemover=this->last;
-        antesRemover->next=aRemover->next;
-        DestroyEvent(aRemover);
-        this->last=antesRemover;
-    }  
-    DestroyEvent(this->head); 
-    free(this);
 }
