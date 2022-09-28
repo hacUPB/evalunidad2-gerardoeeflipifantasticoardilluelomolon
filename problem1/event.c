@@ -11,6 +11,7 @@ Event *CreateEvent(char *name)
     return event;
 }
 
+
 void DestroyEvent(Event *this)
 {
     free(this);
